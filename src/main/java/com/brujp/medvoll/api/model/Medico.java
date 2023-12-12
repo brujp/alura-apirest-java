@@ -1,6 +1,7 @@
 package com.brujp.medvoll.api.model;
 
 import com.brujp.medvoll.api.enums.Especialidade;
+import com.brujp.medvoll.api.records.DadosCadastroMedico;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "id") //Equals gerado em cima do id
 public class Medico {
 
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
@@ -31,4 +32,12 @@ public class Medico {
     @Embedded
     private Endereco endereco;
 
+    //Criando construtor que trabalha com o DTO
+    public Medico(DadosCadastroMedico dados) {
+        this.nome = dados.nome();
+        this.email = dados.email();
+        this.crm = dados.crm();
+        this.especialidade = dados.especialidade();
+        this.endereco = new Endereco(dados.endereco());
+    }
 }
