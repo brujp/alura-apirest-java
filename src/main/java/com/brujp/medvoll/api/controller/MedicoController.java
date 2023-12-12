@@ -1,6 +1,7 @@
 package com.brujp.medvoll.api.controller;
 
 import com.brujp.medvoll.api.model.Medico;
+import com.brujp.medvoll.api.records.DadosAtualizacaoMedico;
 import com.brujp.medvoll.api.records.DadosCadastroMedico;
 import com.brujp.medvoll.api.records.DadosListagemMedico;
 import com.brujp.medvoll.api.repositories.MedicoRepository;
@@ -34,5 +35,14 @@ public class MedicoController {
         //Converter de uma lista Medico para uma lista de DadosListagemMedico
         return repository.findAll(paginacao).map(DadosListagemMedico::new);
     }
+
+    @PutMapping
+    @Transactional
+    public void atualizarMedicos(@RequestBody @Valid DadosAtualizacaoMedico dados) {
+        //Carregar o médico do banco de dados e sobrescrever de acordo com os dados do DTO
+        var medico = repository.getReferenceById(dados.id());
+        medico.atualizarInformacoes(dados);
+    }
+
 
 }
