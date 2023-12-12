@@ -1,9 +1,7 @@
 package com.brujp.medvoll.api.controller;
 
 import com.brujp.medvoll.api.model.Paciente;
-import com.brujp.medvoll.api.records.DadosCadastroPaciente;
-import com.brujp.medvoll.api.records.DadosListagemMedico;
-import com.brujp.medvoll.api.records.DadosListagemPaciente;
+import com.brujp.medvoll.api.records.*;
 import com.brujp.medvoll.api.repositories.PacienteRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,14 @@ public class PacienteController {
     public Page<DadosListagemPaciente> listarPacientes(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         //Converter de uma lista Paciente para uma lista de DadosListagemPaciente
         return repository.findAll(paginacao).map(DadosListagemPaciente::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void atualizarPacientes(@RequestBody @Valid DadosAtualizacaoPaciente dados) {
+        //Carregar o médico do banco de dados e sobrescrever de acordo com os dados do DTO
+        var paciente = repository.getReferenceById(dados.id());
+        paciente.atualizarInformacoes(dados);
     }
 
 }
