@@ -6,6 +6,8 @@ import com.brujp.medvoll.api.records.DadosListagemMedico;
 import com.brujp.medvoll.api.repositories.MedicoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +29,9 @@ public class MedicoController {
     }
 
     @GetMapping
-    public List<DadosListagemMedico> listarMedicos() {
+    public Page<DadosListagemMedico> listarMedicos(Pageable paginacao) {
         //Converter de uma lista Medico para uma lista de DadosListagemMedico
-        return repository.findAll().stream().map(DadosListagemMedico::new).toList();
+        return repository.findAll(paginacao).map(DadosListagemMedico::new);
     }
 
 }
