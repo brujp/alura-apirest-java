@@ -1,9 +1,9 @@
 package com.brujp.medvoll.api.controller;
 
-import com.brujp.medvoll.api.model.Endereco;
 import com.brujp.medvoll.api.model.Medico;
 import com.brujp.medvoll.api.records.DadosCadastroMedico;
 import com.brujp.medvoll.api.repositories.MedicoRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +22,7 @@ public class MedicoController {
     //Recebo um DTO e converto para Medico
     @PostMapping
     @Transactional //Preciso ter uma transação ativa com o banco de dados
-    public void cadastrarMedicos(@RequestBody DadosCadastroMedico dados) {
+    public void cadastrarMedicos(@RequestBody @Valid DadosCadastroMedico dados) {
         repository.save(new Medico(dados));
     }
 
