@@ -35,7 +35,7 @@ public class PacienteController {
     @PutMapping
     @Transactional
     public void atualizarPacientes(@RequestBody @Valid DadosAtualizacaoPaciente dados) {
-        //Carregar o médico do banco de dados e sobrescrever de acordo com os dados do DTO
+        //Carregar o paciente do banco de dados e sobrescrever de acordo com os dados do DTO
         var paciente = repository.getReferenceById(dados.id());
         paciente.atualizarInformacoes(dados);
     }
