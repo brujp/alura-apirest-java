@@ -29,7 +29,7 @@ public class PacienteController {
     @GetMapping
     public Page<DadosListagemPaciente> listarPacientes(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         //Converter de uma lista Paciente para uma lista de DadosListagemPaciente
-        return repository.findAll(paginacao).map(DadosListagemPaciente::new);
+        return repository.findAllByAtivoTrue(paginacao).map(DadosListagemPaciente::new);
     }
 
     @PutMapping
@@ -38,6 +38,14 @@ public class PacienteController {
         //Carregar o paciente do banco de dados e sobrescrever de acordo com os dados do DTO
         var paciente = repository.getReferenceById(dados.id());
         paciente.atualizarInformacoes(dados);
+    }
+
+    //Exclusão lógica - Eu não apago o registro do banco de dados
+    @DeleteMapping("/{id}") //Parâmetro dinâmico
+    @Transactional
+    public void excluirPacientes(@PathVariable Long id) {
+        var paciente = repository.getReferenceById(id);
+        paciente.excluir();
     }
 
 }
