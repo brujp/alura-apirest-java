@@ -66,4 +66,12 @@ public class MedicoController {
         return ResponseEntity.noContent().build();
     }
 
+    //Exclusão lógica - Eu não apago o registro do banco de dados
+    @GetMapping("/{id}") //Parâmetro dinâmico
+    public ResponseEntity detalharMedicos(@PathVariable Long id) {
+        var medico = repository.getReferenceById(id);
+
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
+    }
+
 }
